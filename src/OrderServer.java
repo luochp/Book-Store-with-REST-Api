@@ -135,7 +135,7 @@ public class OrderServer {
         orderHistoryURL = url;
         File tempFile = new File(orderHistoryURL);
         tempFile.delete();
-        tempFile.createNewFile();
+        File newFile = new File(orderHistoryURL);
         return this;
     }
 

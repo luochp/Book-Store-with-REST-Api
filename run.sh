@@ -2,9 +2,9 @@
 
 # Define EDLab Multiple Computer Parameters
 # Need to change before running for TA
-EDLAB_FRONTEND_IP=localhost:5001
-EDLAB_CATELOG_IP=localhost:5002
-EDLAB_ORDER_IP=localhost:5003
+EDLAB_FRONTEND_IP=128.119.243.164:5001
+EDLAB_CATELOG_IP=128.119.243.175:5002
+EDLAB_ORDER_IP=128.119.243.175:5003
 
 # No Need to Change #
 EDLAB_BOOK_DATA_URL="../tests/edlab_test_book_data.csv"
@@ -30,19 +30,19 @@ LOCAL_CLIENT_LOG_URL="./tests/local_test_client_log_file.csv"
 
 if [ $1 == 'local' ] && [ $2 == 'frontend' ]
 then
-    mvn verify
+    mvn clean package
     mvn exec:java -Dexec.mainClass="com.dslab2.FrontEndService" -Dexec.args="$LOCAL_FRONTEND_IP $LOCAL_CATELOG_IP $LOCAL_ORDER_IP $LOCAL_FRONTEND_LOG_URL"
 elif [ $1 == 'local' ] && [ $2 == 'catelog' ]
 then
-    mvn verify
+    mvn clean package
     mvn exec:java -Dexec.mainClass="com.dslab2.CatelogService" -Dexec.args="$LOCAL_FRONTEND_IP $LOCAL_CATELOG_IP $LOCAL_ORDER_IP $LOCAL_BOOK_DATA_URL $LOCAL_CATELOG_LOG_URL"
 elif [ $1 == 'local' ] && [ $2 == 'order' ]
 then
-    mvn verify
+    mvn clean package
     mvn exec:java -Dexec.mainClass="com.dslab2.OrderService" -Dexec.args="$LOCAL_FRONTEND_IP $LOCAL_CATELOG_IP $LOCAL_ORDER_IP $LOCAL_ORDER_LOG_URL"
 elif [ $1 == 'local' ] && [ $2 == 'client' ]
 then
-    mvn verify
+    mvn clean package
     mvn exec:java -Dexec.mainClass="com.dslab2.Client" -Dexec.args="$LOCAL_FRONTEND_IP $LOCAL_CLIENT_COMMAND_LIST_URL $LOCAL_CLIENT_LOG_URL"
 
 elif [ $1 == 'edlab' ] && [ $2 == 'frontend' ]
@@ -58,7 +58,7 @@ then
 elif [ $1 == 'edlab' ] && [ $2 == 'order' ]
 then
     cd ./target/
-    java -cp com.dslab2-1.0-jar-with-dependencies.jar com.dslab2.OrderService $EDLAB_FRONTEND_IP $EDLAB_CATELOG_IP $EDLAB_ORDER_IP $EDLABORDER_LOG_URL
+    java -cp com.dslab2-1.0-jar-with-dependencies.jar com.dslab2.OrderService $EDLAB_FRONTEND_IP $EDLAB_CATELOG_IP $EDLAB_ORDER_IP $EDLAB_ORDER_LOG_URL
     #mvn exec:java -Dexec.mainClass="com.dslab2.OrderService" -Dexec.args="$EDLAB_FRONTEND_IP $EDLAB_CATELOG_IP $EDLAB_ORDER_IP $EDLABORDER_LOG_URL"
 elif [ $1 == 'edlab' ] && [ $2 == 'client' ]
 then
