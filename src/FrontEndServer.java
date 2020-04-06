@@ -29,13 +29,15 @@ public class FrontEndServer {
     private IP catelogIP;
     private IP orderIP;
 
+    private String logFileURL;
+
     private CloseableHttpClient httpClient = HttpClients.createDefault();
 
     public void FrontEndServer(){
 
     }
 
-    public String search(String topic){
+    public String search(String topic) throws Exception{
         // Quick Check
         if ( topic.equals("distributed systems") == false && topic.equals("graduate school") == false ){
             return "No topic exists, please enter distributed systems or graduate school";
@@ -60,15 +62,17 @@ public class FrontEndServer {
                 displayResult = "search " + topic + " fail";
             }
             System.out.println(displayResult);
+            writeIntoLogFile(displayResult);
             return reqResult;
         } catch (Exception e){
             displayResult = "search " + topic + " fail";
             System.out.println(displayResult);
+            writeIntoLogFile(displayResult);
             return reqResult;
         }
     }
 
-    public String lookUp(int itemNumber){
+    public String lookUp(int itemNumber) throws Exception{
         // Quick Check
         if ( itemNumber < 0 || itemNumber > 3 ){
             return "No item exists, please enter number between 0~3";
@@ -92,15 +96,17 @@ public class FrontEndServer {
                 displayResult = "lookUp " + itemNumber + " fail";
             }
             System.out.println(displayResult);
+            writeIntoLogFile(displayResult);
             return reqResult;
         } catch (Exception e){
             displayResult = "lookUp " + itemNumber + " fail";
             System.out.println(displayResult);
+            writeIntoLogFile(displayResult);
             return reqResult;
         }
     }
 
-    public String buy(int itemNumber){
+    public String buy(int itemNumber) throws Exception{
         // Quick Check
         if ( itemNumber < 0 || itemNumber > 3 ){
             return "No item exists, please enter number between 0~3";
@@ -117,16 +123,18 @@ public class FrontEndServer {
                 reqResult = EntityUtils.toString(entity);
             }
 
-            if( reqResult.equals("true") ){
+            if( reqResult.contains("true") ){
                 displayResult = "buy " + itemNumber +" success";
             } else{
                 displayResult = "buy " + itemNumber +" fail";
             }
             System.out.println(displayResult);
+            writeIntoLogFile(displayResult);
             return reqResult;
         } catch (Exception e){
             displayResult = "buy " + itemNumber +" fail";
             System.out.println(displayResult);
+            writeIntoLogFile(displayResult);
             return reqResult;
         }
     }
@@ -144,6 +152,21 @@ public class FrontEndServer {
     public FrontEndServer withOrderIP(String addr){
         orderIP = new IP().withString(addr);
         return this;
+    }
+
+    public FrontEndServer withLogFileURL(String url) throws Exception{
+        logFileURL = url;
+        File tempFile = new File(url);
+        tempFile.delete();
+        tempFile.createNewFile();
+        return this;
+    }
+
+    private void writeIntoLogFile(String s) throws Exception{
+        CSVWriter writer = new CSVWriter(new FileWriter(logFileURL, true));
+        String [] record = s.split(",");
+        writer.writeNext(record);
+        writer.close();
     }
 
 }

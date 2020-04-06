@@ -1,11 +1,27 @@
 package com.dslab2;
 import static spark.Spark.*;
+import java.net.*;
 import java.util.*;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.File;
+import java.io.IOException;
 import au.com.bytecode.opencsv.CSVReader;
 import au.com.bytecode.opencsv.CSVWriter;
 import com.google.gson.*;
+import org.apache.http.*;
+import org.apache.http.Header;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpHeaders;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
 
 public class CatelogServer {
     public IP ip;
@@ -13,6 +29,7 @@ public class CatelogServer {
     private IP orderIP;
 
     private String dataURL;
+    private String logFileURL;
 
     private List<Book> bookList;
 
@@ -31,8 +48,10 @@ public class CatelogServer {
 
         if(items.size() > 0){
             System.out.println("query subject " + subject + " success");
+            writeIntoLogFile("query subject " + subject + " success");
         } else{
             System.out.println("query subject " + subject + " failed");
+            writeIntoLogFile("query subject " + subject + " failed");
         }
         return items;
     }
@@ -52,10 +71,12 @@ public class CatelogServer {
 
         if ( tempBook.itemNumber == itemNumber ){
             System.out.println("query item " + itemNumber + " success");
+            writeIntoLogFile("query item " + itemNumber + " success");
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             return gson.toJson( tempBook );
         } else{
             System.out.println("query item " + itemNumber + " failed");
+            writeIntoLogFile("query item " + itemNumber + " fail");
             return "Book Not Found";
         }
     }
@@ -78,8 +99,10 @@ public class CatelogServer {
 
         if ( result == true ){
             System.out.println("request item " + itemNumber + " success, " + tempBook.stack + " left");
+            writeIntoLogFile("request item " + itemNumber + " success, " + tempBook.stack + " left");
         } else{
-            System.out.println("request item " + itemNumber + " fail");
+            System.out.println("request item " + itemNumber + " fail, " + tempBook.stack + " left");
+            writeIntoLogFile("request item " + itemNumber + " fail, " + tempBook.stack + " left");
         }
 
         return result;
@@ -102,8 +125,10 @@ public class CatelogServer {
 
         if ( result == true ){
             System.out.println("reload item " + itemNumber + " " + reloadAmount + " more, " + tempBook.stack + " left");
+            writeIntoLogFile("reload item " + itemNumber + " " + reloadAmount + " more, " + tempBook.stack + " left");
         } else{
             System.out.println("reload item " + itemNumber + " " + reloadAmount + " fail");
+            writeIntoLogFile("reload item " + itemNumber + " " + reloadAmount + " fail");
         }
 
         return result;
@@ -125,8 +150,10 @@ public class CatelogServer {
 
         if ( result == true ){
             System.out.println("update item " + itemNumber + " cost to " + cost + " success");
+            writeIntoLogFile("update item " + itemNumber + " cost to " + cost + " success");
         } else{
             System.out.println("update item " + itemNumber + " cost to " + cost + " fail");
+            writeIntoLogFile("update item " + itemNumber + " cost to " + cost + " fail");
         }
 
         return result;
@@ -177,6 +204,21 @@ public class CatelogServer {
     public CatelogServer withDataURL(String url){
         dataURL = url;
         return this;
+    }
+
+    public CatelogServer withLogFileURL(String url) throws Exception{
+        logFileURL = url;
+        File tempFile = new File(url);
+        tempFile.delete();
+        tempFile.createNewFile();
+        return this;
+    }
+
+    private void writeIntoLogFile(String s) throws Exception{
+        CSVWriter writer = new CSVWriter(new FileWriter(logFileURL, true));
+        String [] record = s.split(",");
+        writer.writeNext(record);
+        writer.close();
     }
 
 }

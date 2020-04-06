@@ -50,8 +50,8 @@ public class CatelogService {
     public static void main(String[] args) throws Exception {
 
         // Check if enter all ip address
-        if(args.length < 4){
-            System.out.println("Please enter FrontEnd, Catelog and Order IPaddrss:port");
+        if(args.length < 5){
+            System.out.println("Please enter FrontEnd, Catelog and Order IPaddrss:port, logFileURL");
             return;
         }
 
@@ -59,7 +59,8 @@ public class CatelogService {
                 .withSelfIP(args[1])
                 .withFrontEndIP(args[0])
                 .withOrderIP(args[2])
-                .withDataURL(args[3]);
+                .withDataURL(args[3])
+                .withLogFileURL(args[4]);
 
         new CatelogService(clServer);
 

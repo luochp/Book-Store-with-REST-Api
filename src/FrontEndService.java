@@ -25,7 +25,7 @@ public class FrontEndService {
         });
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         // Check if enter all ip address
         if(args.length < 3){
             System.out.println("Please enter FrontEnd, Catelog and Order IPaddrss:port");
@@ -35,7 +35,8 @@ public class FrontEndService {
         FrontEndServer feServer = new FrontEndServer()
                        .withSelfIP(args[0])
                        .withCatelogIP(args[1])
-                       .withOrderIP(args[2]);
+                       .withOrderIP(args[2])
+                       .withLogFileURL(args[3]);
 
         new FrontEndService(feServer);
         System.out.println("Front End Service Running");
