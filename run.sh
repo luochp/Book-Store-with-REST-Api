@@ -1,6 +1,21 @@
 #!/bin/bash
 
+# Define EDLab Multiple Computer Parameters
+# Need to change before running for TA
+EDLAB_FRONTEND_IP=elnux2.cs.umass.edu:5001
+EDLAB_CATELOG_IP=elnux7.cs.umass.edu:5001
+EDLAB_ORDER_IP=elnux7.cs.umass.edu:5002
+
+# No Need to Change #
+EDLAB_BOOK_DATA_URL="./tests/edlab_test_book_data.csv"
+EDLAB_FRONTEND_LOG_URL="./tests/edlab_test_frontend_log_file.csv"
+EDLAB_CATELOG_LOG_URL="./tests/edlab_test_catelog_log_file.csv"
+EDLAB_ORDER_LOG_URL="./tests/edlab_test_order_log_file.csv"
+EDLAB_CLIENT_COMMAND_LIST_URL="./tests/edlab_test_client_command_list.csv"
+EDLAB_CLIENT_LOG_URL="./tests/edlab_test_client_log_file.csv"
+
 # Define Local Parameters
+# No need to change for TA
 LOCAL_FRONTEND_IP=localhost:5000
 LOCAL_CATELOG_IP=localhost:5100
 LOCAL_ORDER_IP=localhost:5200
@@ -12,21 +27,6 @@ LOCAL_CATELOG_LOG_URL="./tests/local_test_catelog_log_file.csv"
 LOCAL_ORDER_LOG_URL="./tests/local_test_order_log_file.csv"
 LOCAL_CLIENT_COMMAND_LIST_URL="./tests/local_test_client_command_list.csv"
 LOCAL_CLIENT_LOG_URL="./tests/local_test_client_log_file.csv"
-
-
-# Define EDLab Multiple Computer Parameters
-# Need to change before running
-EDLAB_FRONTEND_IP=localhost:5000
-EDLAB_CATELOG_IP=localhost:5100
-EDLAB_ORDER_IP=localhost:5200
-
-# No Need to Change #
-EDLAB_BOOK_DATA_URL="./tests/edlab_test_book_data.csv"
-EDLAB_FRONTEND_LOG_URL="./tests/edlab_test_frontend_log_file.csv"
-EDLAB_CATELOG_LOG_URL="./tests/edlab_test_catelog_log_file.csv"
-EDLAB_ORDER_LOG_URL="./tests/edlab_test_order_log_file.csv"
-EDLAB_CLIENT_COMMAND_LIST_URL="./tests/edlab_test_client_command_list.csv"
-EDLAB_CLIENT_LOG_URL="./tests/edlab_test_client_log_file.csv"
 
 # Compile
 mvn verify
