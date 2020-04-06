@@ -2,9 +2,9 @@
 
 # Define EDLab Multiple Computer Parameters
 # Need to change before running for TA
-EDLAB_FRONTEND_IP=elnux2.cs.umass.edu:5001
-EDLAB_CATELOG_IP=elnux7.cs.umass.edu:5001
-EDLAB_ORDER_IP=elnux7.cs.umass.edu:5002
+EDLAB_FRONTEND_IP=128.119.243.164:5001
+EDLAB_CATELOG_IP=128.119.243.175:5001
+EDLAB_ORDER_IP=128.119.243.175:5002
 
 # No Need to Change #
 EDLAB_BOOK_DATA_URL="../tests/edlab_test_book_data.csv"
