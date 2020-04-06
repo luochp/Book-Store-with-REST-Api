@@ -30,19 +30,15 @@ LOCAL_CLIENT_LOG_URL="./tests/local_test_client_log_file.csv"
 
 if [ $1 == 'local' ] && [ $2 == 'frontend' ]
 then
-    mvn clean package
     mvn exec:java -Dexec.mainClass="com.dslab2.FrontEndService" -Dexec.args="$LOCAL_FRONTEND_IP $LOCAL_CATELOG_IP $LOCAL_ORDER_IP $LOCAL_FRONTEND_LOG_URL"
 elif [ $1 == 'local' ] && [ $2 == 'catelog' ]
 then
-    mvn clean package
     mvn exec:java -Dexec.mainClass="com.dslab2.CatelogService" -Dexec.args="$LOCAL_FRONTEND_IP $LOCAL_CATELOG_IP $LOCAL_ORDER_IP $LOCAL_BOOK_DATA_URL $LOCAL_CATELOG_LOG_URL"
 elif [ $1 == 'local' ] && [ $2 == 'order' ]
 then
-    mvn clean package
     mvn exec:java -Dexec.mainClass="com.dslab2.OrderService" -Dexec.args="$LOCAL_FRONTEND_IP $LOCAL_CATELOG_IP $LOCAL_ORDER_IP $LOCAL_ORDER_LOG_URL"
 elif [ $1 == 'local' ] && [ $2 == 'client' ]
 then
-    mvn clean package
     mvn exec:java -Dexec.mainClass="com.dslab2.Client" -Dexec.args="$LOCAL_FRONTEND_IP $LOCAL_CLIENT_COMMAND_LIST_URL $LOCAL_CLIENT_LOG_URL"
 
 elif [ $1 == 'edlab' ] && [ $2 == 'frontend' ]

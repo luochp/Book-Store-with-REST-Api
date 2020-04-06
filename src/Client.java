@@ -34,8 +34,60 @@ public class Client {
 
     private CloseableHttpClient httpClient = HttpClients.createDefault();
 
+    private double avgLookUpDuration = 0;
+
     public Client(){
+        // new repeatRequestThread().start();
         new runTestCommandThread().start();
+    }
+
+    public class repeatRequestThread extends Thread {
+        public void run()  {
+            try{
+                Thread.sleep(2000);
+            } catch (Exception e){
+
+            }
+
+            while(true){
+                String completeCommand  = "http://" + frontEndIP.toString() + "/buy/0";
+                try {
+                    Thread.sleep(500);
+                    runRepeatGetCommand(completeCommand);
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
+            }
+        }
+    }
+
+    private void runRepeatGetCommand(String reqURL) throws Exception{
+        String reqResult ="";
+        String displayResult = "";
+        try {
+            reqURL = reqURL.replace(" ", "%20");
+            HttpGet request = new HttpGet(reqURL);
+
+            long startTime = System.currentTimeMillis();
+
+            CloseableHttpResponse response = httpClient.execute(request);
+
+            long endTime = System.currentTimeMillis();
+            long LookUpDuration = endTime - startTime;
+            avgLookUpDuration = (double) ((avgLookUpDuration * 29 + LookUpDuration)/30);
+
+            HttpEntity entity = response.getEntity();
+            if (entity != null) {
+                // return it as a String
+                reqResult = EntityUtils.toString(entity);
+            }
+            System.out.println( "Average Time:" + avgLookUpDuration);
+            System.out.println( "Run command:" + reqURL);
+            System.out.println( "Result:" + reqResult);
+        } catch (Exception e){
+            System.out.println( "Run command:" + reqResult);
+            System.out.println( "Result:" + reqResult);
+        }
     }
 
     public class runTestCommandThread extends Thread{

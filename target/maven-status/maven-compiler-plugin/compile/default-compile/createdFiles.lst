@@ -7,5 +7,6 @@ com/dslab2/Book.class
 com/dslab2/CatelogService.class
 com/dslab2/OrderServer$ReloadThread.class
 com/dslab2/FrontEndServer.class
+com/dslab2/Client$repeatRequestThread.class
 com/dslab2/Client$runTestCommandThread.class
 com/dslab2/CatelogServer.class
